@@ -1,0 +1,9 @@
+.env
+.env.*
+.next/
+node_modules/
+.vercel/
+*.tsbuildinfo
+AGENTS.md
+CLAUDE.md
+**/.DS_Store

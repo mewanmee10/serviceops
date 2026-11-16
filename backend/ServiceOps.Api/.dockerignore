@@ -1,0 +1,10 @@
+bin/
+obj/
+App_Data/
+.git/
+.env
+.env.*
+**/*.secrets.json
+**/*.dump
+**/*.log
+**/.DS_Store

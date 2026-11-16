@@ -1,0 +1,188 @@
+.filters {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+.filters label {
+  flex: 1;
+  min-width: 200px;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.map {
+  height: 460px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin: 18px 0;
+}
+.legend {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.siteLegend svg {
+  color: #c2410c;
+}
+.technicianLegend svg {
+  color: #2563eb;
+}
+.fallback {
+  padding: 18px;
+  background: var(--muted);
+  border-radius: 14px;
+  line-height: 1.7;
+}
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.list li {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  overflow-wrap: anywhere;
+}
+.list strong,
+.list span {
+  display: block;
+}
+.list span {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin: 8px 0;
+}
+.list p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.list small {
+  color: var(--muted-foreground);
+}
+.sitePin,
+.technicianPin {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #c2410c;
+  color: #fff;
+  border: 3px solid white;
+  box-shadow: 0 3px 9px #0003;
+  font-weight: 700;
+}
+.technicianPin {
+  background: #2563eb;
+}
+.info {
+  color: #0f172a;
+  font-size: 13px;
+  max-width: 260px;
+}
+.info p {
+  margin: 7px 0;
+  white-space: normal;
+}
+@media (max-width: 650px) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+  .map {
+    height: 340px;
+  }
+  .filters label {
+    min-width: 100%;
+  }
+}
+.mapShell {
+  position: relative;
+}
+.skeleton {
+  padding: 28px;
+  border-radius: 18px;
+  min-height: 110px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  animation: loadingPulse 1.5s ease-in-out infinite alternate;
+}
+.mapShell .skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-content: center;
+}
+.locationButton {
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: var(--foreground);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  height: auto;
+  white-space: normal;
+}
+.locationButton:hover {
+  color: #c2410c;
+}
+.locationButton:focus-visible {
+  outline: 2px solid #ea580c;
+  outline-offset: 5px;
+  border-radius: 4px;
+}
+.list .selectedLocation {
+  border-color: #c2410c;
+  box-shadow: 0 0 0 1px #ea580c;
+}
+.selectedPin {
+  outline: 4px solid #0f172a;
+  outline-offset: 2px;
+  transform: scale(1.12);
+}
+.externalLink {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 14px;
+  font-size: 13px;
+  text-decoration: underline;
+}
+.externalLink span {
+  margin: 0;
+}
+@keyframes loadingPulse {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* Glass surrounds keep the live map canvas opaque and interactive. */
+.filters { padding: 18px; border: 1px solid var(--glass-edge); border-radius: 18px; background: var(--glass-dense-surface); box-shadow: var(--glass-shadow); }
+.list li { background: var(--glass-card-surface); border-color: var(--glass-edge); box-shadow: var(--glass-shadow); }
+.map { background: #fff; box-shadow: var(--glass-shadow); }
+.info { background: #fff; }

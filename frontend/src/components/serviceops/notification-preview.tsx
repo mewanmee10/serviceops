@@ -1,0 +1,15 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { Bell, ArrowUpRight } from "lucide-react";
+import { useNotifications } from "./use-notifications";
+export function NotificationPreview({userId,onView}:{userId:string|number;onView:()=>void}) {
+ const {count,items,sound,message,error,refresh,toggleSound,read}=useNotifications(userId);
+ const [open,setOpen]=useState(false),[actionError,setActionError]=useState("");const root=useRef<HTMLDivElement>(null),trigger=useRef<HTMLButtonElement>(null);
+ useEffect(()=>{if(!open)return;const outside=(e:PointerEvent)=>{if(!root.current?.contains(e.target as Node))setOpen(false)};const escape=(e:KeyboardEvent)=>{if(e.key==="Escape"){setOpen(false);trigger.current?.focus()}};document.addEventListener("pointerdown",outside);document.addEventListener("keydown",escape);return()=>{document.removeEventListener("pointerdown",outside);document.removeEventListener("keydown",escape)}},[open]);
+ async function mark(id?:number){try{await read(id);setActionError("")}catch(e){setActionError((e as Error).message)}}
+ return <div className="notification-preview" ref={root}><button ref={trigger} aria-label={`Open notifications, ${count??"loading"} unread`} aria-expanded={open} aria-controls="notification-preview" className="notification-trigger" onClick={()=>{setOpen(!open);if(!open)void refresh()}}><Bell size={19} aria-hidden/><span className="notification-count" aria-hidden>{count===null?"…":count>99?"99+":count}</span></button>
+ <section hidden={!open} id="notification-preview" className="notification-popover" aria-label="Notification preview"><div className="panel-title"><h2>Notifications</h2><span className="badge">{count??"…"} unread</span></div><p className="muted small">Unread messages, not outstanding service tasks.</p><button type="button" aria-pressed={sound} onClick={()=>void toggleSound()}>{sound?"Mute notification sound":"Enable notification sound"}</button>{message&&<p role="status" className="small">{message}</p>}{(error||actionError)&&<p role="alert" className="error">{actionError||error}</p>}
+ {count===null&&!error?<p role="status">Loading notifications…</p>:items.length?<><button onClick={()=>void mark()}>Mark all as read</button><ul>{items.slice(0,6).map(item=>{const match=String(item.message).match(/Work order #(\d+)/i),href=match?`/dashboard/work-orders/${match[1]}`:/contact inquiry/i.test(String(item.message))?"/dashboard?section=inquiries":null;return <li key={String(item.notificationId)}><p>{String(item.message)}</p><time dateTime={String(item.createdAt)}>{new Date(String(item.createdAt)).toLocaleString()}</time><div className="toolbar">{href&&<Link href={href} onClick={()=>setOpen(false)}>Open details</Link>}<button onClick={()=>void mark(Number(item.notificationId))}>Mark read</button></div></li>})}</ul></>:<p className="muted">You’re all caught up.</p>}
+ <button className="notification-view" onClick={()=>{setOpen(false);onView()}}>View all notifications <ArrowUpRight size={16}/></button></section></div>
+}

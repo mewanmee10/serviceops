@@ -1,0 +1,33 @@
+# Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+
+# .NET
+backend/**/bin/
+backend/**/obj/
+.vs/
+*.user
+
+# Secrets
+*.secrets.json
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+
+# Local verification Python cache
+scripts/__pycache__/
+
+# Private local service evidence
+backend/**/App_Data/
+
+**/__pycache__/
+.vercel
+.env*
